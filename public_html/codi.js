@@ -213,3 +213,70 @@ function nuevaDireccion(Y, X) {
 }
 
 
+ //DELCARAMOS LA FUNCION DE INCIO + la cuenta atras y la direccion en la que empiezan nuestros elementos
+        
+    function inicio() {
+        
+        document.addEventListener("keydown", keyDown, true);
+        document.addEventListener("keypress", keyPress, true); 
+        
+        timer = window.setInterval(mainLoop, 1000 / Pacman.cuadro);
+    };
+    
+    return {
+        "init" : init
+    };
+    
+}());
+
+//Declaramos la opcion de los estados en los cuales se encuentra el juego:
+
+    function mainLoop() {
+
+        var diff;
+
+        if (state !== PAUSE) { 
+            ++tick;
+        }
+
+        map.draw(ctx);
+
+        if (state === PLAYING) {
+            mainDraw();
+        } else if (state === WAITING && stateChanged) {            
+            stateChanged = false;
+            map.draw(ctx);
+                     
+        } else if (state === EATEN_PAUSE && 
+                   (tick - timerStart) > (Pacman.cuadro / 3)) {
+            map.draw(ctx);
+            setState(PLAYING);
+        } else if (state === DYING) {
+            if (tick - timerStart > (Pacman.cuadro * 2)) { 
+                loseLife();
+            } else { 
+                redrawBlock(userPos);
+                for (i = 0, len = ghosts.length; i < len; i += 1) {
+                    redrawBlock(ghostPos[i].old);
+                    ghostPos.push(ghosts[i].draw(ctx));
+                }                                   
+                user.drawDead(ctx, (tick - timerStart) / (Pacman.cuadro * 2));
+            }
+        } else if (state === COUNTDOWN) {
+            
+            diff = 5 + Math.floor((timerStart - tick) / Pacman.cuadro);
+            
+            if (diff === 0) {
+                map.draw(ctx);
+                setState(PLAYING);
+            } else {
+                if (diff !== lastTime) { 
+                    lastTime = diff;
+                    map.draw(ctx);
+                    dialog("Starting in: " + diff);
+                }
+            }
+        } 
+
+        drawFooter();
+    }

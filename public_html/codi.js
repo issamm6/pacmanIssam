@@ -1,42 +1,95 @@
-//ENUNCIADO
-/*Heu de desenvolupar el joc del PACMAN (també conegut com a comecocos) amb una funcionalitat inicial més reduïda que la del joc en qüestió. */
-
-//El joc tindrà un jugador i tres fantasmes.
-//El joc tindrà, mínim, 30 files per 30 columnes
-//No hi ha pastilles ni cireres en el recorregut.
-//El joc acaba en el moment que un fantasma agafa al jugador i, en aquest cas, el jugador perd.
-//El joc acaba si durant 50 minuts els fantasmes no agafen al jugador i, en aquest cas, el jugador guanya.
-//La puntuació és el temps que porta jugant un jugador.
-//La puntuació màxima és el temps màxim que ha estat un jugador jugant i superant «partides» (si en fa 3 de seguides i l’agafen als 10 segons de la quarta, llavors la puntuació és 3*60+10)
+/* DECLARAMOS LAS DIRECCIONES DE LAS SIGUIENTE MANERAS, LAS MAS IMPORTANTES SON LAS SIGUIENTES:
+Izquierda: 2
+Abajo: 1
+Arriba: 3
+Derecha: 11
+*/
 
 
-
-/* Declaro como pared = 1 y como trayecto = 0*/
-
-/* Declaro la direccion del Jugador&Fantasma de la siguiente Manera: 
-direccion = 0 = izquierda
-direccion = 1 = arriba
-direccion = 2 = derecha
-direccion = 3 = abajo*/
-
-// 1 a dalt     ^
-// 2 dreta      >
-// 3 a baix     v
-// 4 esquerra   <
-
+var NONE          = 4,
+    ARRIBA        = 3,
+    IZQUIERDA     = 2,
+    ABAJO         = 1,
+    DERECHA       = 11,
+    TIEMPOESPERA  = 5,
+    PAUSE         = 6,
+    PLAYING       = 7,
+    CUENTAATRAS   = 8,
+    EATEN_PAUSE   = 9,
+    MUERTO        = 10,
+    Pacman        = {};
 
 
-//FANTASMAS: Assigno valor de inicio tanto de fantasamas como de jugadros, el rango simempre debe estar tanto para la fila como para 
-//la columna, entre (1-29), el rumbo que debe tomar, se declarara tal como se indica en el comentario anterior (0-3).  
-//Para el caso del jugador, introducimos tambien el teclado, al igual que las direcciones, se declarara en un rango 0-3
-var fantasma1 = new Array();
-var fantasma2 = new Array();
-var fantasma3 = new Array();
-
-var jugador = new Array();
+/*Declaramos el cuadro*/
+Pacman.cuadro = 30;
 
 
-var tablon = new array;
+//Declaramos la funcion para hacer la llamada para dibujar el cuadro + inicializamos las variables
+
+Pacman.Ghost = function (juego, map, color) {
+
+    var position  = null,
+        direccion = null,
+       // eatable   = null,
+        eaten     = null,
+        due       = null;
+   
+    
+    
+//Se declara el movimiento del de los elementos (fantasma, jugador)
+    function nuevaUbicacion(dir, current) { 
+    
+        var movimiento  = isVunerable() ? 1 : isHidden() ? 4 : 2,
+        xMovimiento = (dir === IZQUIERDA && -movimiento || dir === DERECHA && movimiento || 0),
+        yMovimiento = (dir === ABAJO && movimiento || dir === ARRIBA && -movimiento || 0);
+    
+        return {
+            "x": encerrado(current.x, xMovimiento),
+            "y": encerrado(current.y, yMovimiento)
+        };
+    };
+
+    
+/* Creamos declaracion para detetar colision con pared */
+    function encerrado(x1, x2) { 
+        var pared    = x1 % 10, 
+            resultado = pared + x2;
+        if (pared !== 0 && resultado > 10) {
+            return x1 + (10 - pared);
+        } else if(pared > 0 && resultado < 0) { 
+            return x1 - rem;
+        }
+        return x1 + x2;
+    };
+    
+    
+    
+    function isVunerable() { 
+        
+    };
+    
+//Declaramos la funcion para controlar las colisiones
+    function colision() {
+        return eaten === null;
+    };
+
+    function isHidden() { 
+        return eatable === null && eaten !== null;
+    };
+    
+    function getRandomdireccion() {
+        var moves = (direccion === IZQUIERDA || direccion === DERECHA) 
+            ? [ARRIBA, ABAJO] : [IZQUIERDA, DERECHA];
+        return moves[Math.floor(Math.random() * 2)];
+    };
+    
+    function reset() {
+        eaten = null;
+        eatable = null;
+        position = {"x": 90, "y": 80};
+        direccion = getRandomdireccion();
+        due = getRandomdireccion();
+    };
 //Para Mantener un cierto orden, declaro las COLUMNAS de la siguiente manera:
 //              [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29];
 tablon =[

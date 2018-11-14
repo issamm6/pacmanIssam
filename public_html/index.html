@@ -1,21 +1,59 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
-    <head>
-        <title>PACMAN ISSAM</title>
-        <meta charset="UTF-8">
-            <STYLE type="text/css">
-                H1.pacman {text-align: center}
-                H1.pacman {font-style: italic; color: blue}
-            </STYLE>
-        <script src="codi.js" type="text/javascript"></script>
-    </head>
-    <body>
-        <H1 class="pacman">PACMAN ISSAM</H1>
-        <button onclick="dibujar()">Botón script</button>
-    </body>
+  <head>
+    <meta charset="utf-8" />
+    <title>Issam EL Azzouzi</title>
+      
+      
+      
+    <!EN este apartado declararemos el estilo de nuestra pagina web>
+    
+    <style type="text/css">
+      @font-face {
+	    
+         format('truetype');
+	    font-weight: normal;
+	    font-style: normal;
+      }
+      #pacman {
+        height:450px;
+        width:342px;
+        margin:20px auto;
+      }
+      
+      h1 { text-align:center; }
+      
+      body { width:342px; 
+      margin:0px auto; 
+      font-family:sans-serif; }
+      a { text-decoration:none; }
+    </style>
+
+</head>
+
+<body>
+  
+
+  <h1>ISSAM PACMAN</h1>
+    <p>Presione N para iniciar el juego!!</p>
+   
+<!Declaramos y relacionamos con nuestro JS y con el archivo que contiene las fuentes/canvas utilizadas (Punto 5 de la practica)>
+  <div id="pacman"></div>
+  <script src="codi.js"></script>
+    
+    <!Framework utilizado para los graficos>
+  <script src="modernizr-1.5.min.js"></script>
+
+  <script>
+
+    var el = document.getElementById("pacman");
+
+    if (Modernizr.canvas && Modernizr.localstorage) {
+      window.setTimeout(function () { PACMAN.init(el, "./"); }, 0);
+    } else { 
+      el.innerHTML = "Lo sentimos, necesita un navegador mas actualizado!<br/><small>";
+    }
+  </script>
+
+</body>
 </html>
